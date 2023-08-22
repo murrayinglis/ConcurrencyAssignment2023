@@ -72,15 +72,15 @@ public class ClubGrid {
 	
 	public GridBlock enterClub(PeopleLocation myLocation) throws InterruptedException  {
 		counter.personArrived(); //add to counter of people waiting 
-		entrance.get(myLocation.getID());
-		//while (counter.getInside() >= counter.getMax()) throw new InterruptedException("Club full");
 		synchronized(entrance)
 		{
-			while (counter.getInside() >= counter.getMax())
+			while ((counter.overCapacity()) || entrance.occupied())
 			{
 				entrance.wait();
 			}
+			entrance.notifyAll();
 		}
+		entrance.get(myLocation.getID());
 		counter.personEntered(); //add to counter
 		myLocation.setLocation(entrance);
 		myLocation.setInRoom(true);

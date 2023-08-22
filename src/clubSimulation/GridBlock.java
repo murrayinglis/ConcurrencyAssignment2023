@@ -30,7 +30,11 @@ public class GridBlock {
 	
 	synchronized public  boolean get(int threadID) throws InterruptedException {
 		if (isOccupied==threadID) return true; //thread Already in this block
-		if (isOccupied>=0) return false; //space is occupied
+		if (isOccupied>=0) 
+		{
+			//System.out.println("Occupied");
+			return false; //space is occupied
+		}
 		isOccupied=threadID;  //set ID to thread that had block
 		return true;
 	}

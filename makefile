@@ -15,4 +15,4 @@ default: $(CLASS_FILES)
 clean:
 	rm $(BINDIR)/clubSimulation/*.class
 run: $(CLASS_FILES)
-	$(JAVA) -cp $(BINDIR) clubSimulation.ClubSimulation 10 25 25 5
+	$(JAVA) -cp $(BINDIR) clubSimulation.ClubSimulation 100 25 25 25
