@@ -69,7 +69,7 @@ public class ClubSimulation {
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)  {
 				System.out.println("\nSimulation started.\n");
-			    Clubgoer.paused = false;  
+			    Clubgoer.paused.set(false);
 		    }
 		});
 			
@@ -77,8 +77,22 @@ public class ClubSimulation {
 		// add the listener to the jbutton to handle the "pressed" event
 		pauseB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+				/**
+				if (Clubgoer.paused.get() == true)
+				{
+					System.out.println("\nSimulation unpaused.\n");
+		    		Clubgoer.paused.set(false);	
+					pauseB.setText("Pause");				
+				}
+				else
+				{
+					System.out.println("\nSimulation paused.\n");
+		    		Clubgoer.paused.set(true);
+					pauseB.setText("Unpause");	
+				}
+				**/
 				System.out.println("\nSimulation paused.\n");
-		    	Clubgoer.paused = true;	
+		    	Clubgoer.paused.set(true);
 		    }
 		});
 			
@@ -142,16 +156,6 @@ public class ClubSimulation {
       	
       	for (int i=0;i<noClubgoers;i++) {
 			patrons[i].start();
-			synchronized(patrons[i].lock)
-			{
-				try{
-					patrons[i].lock.wait();
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
 		}
  	}
 
