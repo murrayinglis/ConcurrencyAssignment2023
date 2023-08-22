@@ -63,13 +63,25 @@ public class Clubgoer extends Thread {
                 }
             }
 
-			if (!paused.get()) {
-				paused.notifyAll();
-			}
+			//if (!paused.get()) {
+			//	paused.notifyAll();
+			//}
         }
     }
+
+	public static void pauseAllThreads() {
+        paused.set(true);
+    }
+
+    public static void resumeAllThreads() {
+        synchronized (paused) {
+            paused.set(false);
+            paused.notifyAll();
+        }
+    }
+
 	private void startSim() {
-		checkPause();
+
     }
 	
 	//get drink at bar
@@ -145,7 +157,7 @@ public class Clubgoer extends Thread {
 	
 	public void run() {
 		try {
-			//startSim(); 
+			startSim(); 
 			checkPause();
 			sleep(movingSpeed*(rand.nextInt(100)+1)); //arriving takes a while
 			checkPause();

@@ -69,7 +69,7 @@ public class ClubSimulation {
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)  {
 				System.out.println("\nSimulation started.\n");
-			    Clubgoer.paused.set(false);
+			    Clubgoer.resumeAllThreads();
 		    }
 		});
 			
@@ -92,7 +92,7 @@ public class ClubSimulation {
 				}
 				**/
 				System.out.println("\nSimulation paused.\n");
-		    	Clubgoer.paused.set(true);
+		    	Clubgoer.pauseAllThreads();
 		    }
 		});
 			
