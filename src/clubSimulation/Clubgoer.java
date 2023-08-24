@@ -13,6 +13,7 @@ public class Clubgoer extends Thread {
 	
 	public static ClubGrid club; //shared club
 	public static AtomicBoolean paused = new AtomicBoolean(true);
+	public static AtomicBoolean start = new AtomicBoolean(true);
 
 	GridBlock currentBlock;
 	private Random rand;
@@ -62,10 +63,6 @@ public class Clubgoer extends Thread {
                     e.printStackTrace();
                 }
             }
-
-			//if (!paused.get()) {
-			//	paused.notifyAll();
-			//}
         }
     }
 
@@ -81,7 +78,17 @@ public class Clubgoer extends Thread {
     }
 
 	private void startSim() {
-
+		synchronized (paused) {
+			while(paused.get()) {
+				try{
+					paused.wait();	
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
     }
 	
 	//get drink at bar

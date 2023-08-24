@@ -32,6 +32,8 @@ public class ClubSimulation {
 	private static int maxWait=1200; //for the slowest customer
 	private static int minWait=500; //for the fastest cutomer
 
+	private static boolean started = false;
+
 	public static void setupGUI(int frameX,int frameY,int [] exits) {
 		// Frame initialize and dimensions
     	JFrame frame = new JFrame("club animation"); 
@@ -68,8 +70,13 @@ public class ClubSimulation {
 		// add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)  {
-				System.out.println("\nSimulation started.\n");
-			    Clubgoer.resumeAllThreads();
+				if (!started) // Only allow start once
+				{
+					System.out.println("\nSimulation started.\n");
+					Clubgoer.resumeAllThreads();
+					started = true;
+				}
+				
 		    }
 		});
 			
@@ -77,22 +84,22 @@ public class ClubSimulation {
 		// add the listener to the jbutton to handle the "pressed" event
 		pauseB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-				/**
-				if (Clubgoer.paused.get() == true)
+				if (started)
 				{
-					System.out.println("\nSimulation unpaused.\n");
-		    		Clubgoer.paused.set(false);	
-					pauseB.setText("Pause");				
+					if (Clubgoer.paused.get() == true) // If paused
+					{
+						System.out.println("\nSimulation unpaused.\n");
+						Clubgoer.resumeAllThreads();
+						pauseB.setText("Pause");				
+					}
+					else // If unpaused
+					{
+						System.out.println("\nSimulation paused.\n");
+						Clubgoer.pauseAllThreads();
+						pauseB.setText("Unpause");	
+					}
 				}
-				else
-				{
-					System.out.println("\nSimulation paused.\n");
-		    		Clubgoer.paused.set(true);
-					pauseB.setText("Unpause");	
-				}
-				**/
-				System.out.println("\nSimulation paused.\n");
-		    	Clubgoer.pauseAllThreads();
+
 		    }
 		});
 			
