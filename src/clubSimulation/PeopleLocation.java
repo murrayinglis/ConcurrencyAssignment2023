@@ -13,9 +13,13 @@ public class PeopleLocation  { // this is a separate class so don't have to acce
 	private GridBlock location; //which GridBlock are they on?
 	
 	PeopleLocation(int ID ) {
-		Random rand = new Random();
-		float c = rand.nextFloat(); //bit of a hack to get different colours
-		myColor = new Color(c, rand.nextFloat(), c);	//only set at beginning	by thread
+		if (ID == 0) myColor = new Color(10, 10, 10);
+		else
+		{
+			Random rand = new Random();
+			float c = rand.nextFloat(); //bit of a hack to get different colours
+			myColor = new Color(c, rand.nextFloat(), c);	//only set at beginning	by thread
+		}
 		inRoom = new AtomicBoolean(false); //not in club
 		arrived = new AtomicBoolean(false); //have not arrive outside
 		this.ID=ID;

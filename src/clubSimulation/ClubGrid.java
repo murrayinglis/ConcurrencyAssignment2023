@@ -10,6 +10,8 @@ public class ClubGrid {
 	private final int y;
 	public  final int bar_y;
 	
+	private boolean andreRight = true;
+
 	private GridBlock exit;
 	private GridBlock entrance; //hard coded entrance
 	private final static int minX =5;//minimum x dimension
@@ -87,7 +89,17 @@ public class ClubGrid {
 		return entrance;
 	}
 	
-	
+	public GridBlock enterBar(PeopleLocation myLocation) throws InterruptedException {
+		GridBlock andreStart = Blocks[0][bar_y+1];
+		//GridBlock andreStart = Blocks[5][5];
+		andreStart.get(myLocation.getID());
+		myLocation.setLocation(andreStart);
+		myLocation.setInRoom(true);
+		return andreStart;
+	}
+
+
+
 	public GridBlock move(GridBlock currentBlock,int step_x, int step_y,PeopleLocation myLocation) throws InterruptedException {  //try to move in 
 		
 		int c_x= currentBlock.getX();
@@ -113,6 +125,51 @@ public class ClubGrid {
 		myLocation.setLocation(newBlock);
 		return newBlock;
 	} 
+
+	public boolean waitForDrink(GridBlock currentBlock) throws InterruptedException
+	{
+
+	}
+
+
+	public GridBlock moveAndre(Andre andre, GridBlock currentBlock, PeopleLocation myLocation) throws InterruptedException
+	{
+		int c_x= currentBlock.getX();
+
+		if (Blocks[c_x][bar_y].occupied()) System.out.println("Drink.");
+
+		if (andreRight)
+		{
+			if (c_x+1 == this.getMaxX())
+			{
+				andreRight = false;
+				return currentBlock;
+			}
+			int new_x = c_x+1; //new block x coordinates
+			GridBlock newBlock = Blocks[new_x][bar_y+1];
+	
+			currentBlock.release();
+			myLocation.setLocation(newBlock);
+	
+			return newBlock;
+		}
+		else
+		{
+			if (c_x-1 < 0)
+			{
+				andreRight = true;
+				return currentBlock;
+			}
+			int new_x = c_x-1; //new block x coordinates
+			GridBlock newBlock = Blocks[new_x][bar_y+1];
+	
+			currentBlock.release();
+			myLocation.setLocation(newBlock);
+	
+			return newBlock;
+		}
+
+	}
 	
 
 	public  void leaveClub(GridBlock currentBlock,PeopleLocation myLocation)   {
