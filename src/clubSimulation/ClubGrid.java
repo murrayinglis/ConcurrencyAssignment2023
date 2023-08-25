@@ -126,9 +126,27 @@ public class ClubGrid {
 		return newBlock;
 	} 
 
-	public boolean waitForDrink(GridBlock currentBlock) throws InterruptedException
+	public boolean waitForDrink(Clubgoer cus, GridBlock currentBlock) throws InterruptedException
 	{
+		int c_x = currentBlock.getX();
+		boolean thirsty = true;
 
+		synchronized(currentBlock)
+		{
+			while(thirsty)
+			{	
+				//System.out.println("waiting.");
+				try{
+					currentBlock.wait();
+				}
+				catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+				//System.out.println("Drinked.");
+				thirsty = false;
+			}
+		}
+		return false;	
 	}
 
 
@@ -136,7 +154,21 @@ public class ClubGrid {
 	{
 		int c_x= currentBlock.getX();
 
-		if (Blocks[c_x][bar_y].occupied()) System.out.println("Drink.");
+		synchronized(Blocks[c_x][bar_y])
+		{
+			if (Blocks[c_x][bar_y].occupied()) {
+				System.out.println("Drink.");
+				try{
+					Blocks[c_x][bar_y].notifyAll();
+					andre.sleep(1000);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+
 
 		if (andreRight)
 		{
