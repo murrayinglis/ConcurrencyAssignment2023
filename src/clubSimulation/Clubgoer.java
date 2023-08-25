@@ -13,7 +13,6 @@ public class Clubgoer extends Thread {
 	
 	public static ClubGrid club; //shared club
 	public static AtomicBoolean paused = new AtomicBoolean(true);
-	public static AtomicBoolean start = new AtomicBoolean(true);
 
 	GridBlock currentBlock;
 	private Random rand;
@@ -93,11 +92,12 @@ public class Clubgoer extends Thread {
 	
 	//get drink at bar
 		private void getDrink() throws InterruptedException {
-			//FIX SO BARMAN GIVES THE DRINK AND IT IS NOT AUTOMATIC
-			thirsty=false;
+			thirsty=club.waitForDrink(this, currentBlock);
 			System.out.println("Thread "+this.ID + " got drink at bar position: " + currentBlock.getX()  + " " +currentBlock.getY() );
 			sleep(movingSpeed*5);  //wait a bit
 		}
+
+
 		
 	//--------------------------------------------------------
 	//DO NOT CHANGE THE CODE BELOW HERE - it is not necessary

@@ -22,12 +22,14 @@ public class ClubSimulation {
 	
 	static Clubgoer[] patrons; // array for customer threads
 	static PeopleLocation [] peopleLocations;  //array to keep track of where customers are
+	static PeopleLocation andreLocation;
 	
 	static PeopleCounter tallys; //counters for number of people inside and outside club
 
 	static ClubView clubView; //threaded panel to display terrain
 	static ClubGrid clubGrid; // club grid
 	static CounterDisplay counterDisplay ; //threaded display of counters
+	static Andre andre; // Andre thread
 	
 	private static int maxWait=1200; //for the slowest customer
 	private static int minWait=500; //for the fastest cutomer
@@ -44,7 +46,7 @@ public class ClubSimulation {
         g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
       	g.setSize(frameX,frameY);
  	    
-		clubView = new ClubView(peopleLocations, clubGrid, exits);
+		clubView = new ClubView(peopleLocations, clubGrid, exits, andreLocation);
 		clubView.setSize(frameX,frameY);
 	    g.add(clubView);
 	    
@@ -74,6 +76,7 @@ public class ClubSimulation {
 				{
 					System.out.println("\nSimulation started.\n");
 					Clubgoer.resumeAllThreads();
+					Andre.resumeAllThreads();
 					started = true;
 				}
 				
@@ -90,12 +93,14 @@ public class ClubSimulation {
 					{
 						System.out.println("\nSimulation unpaused.\n");
 						Clubgoer.resumeAllThreads();
+						Andre.resumeAllThreads();
 						pauseB.setText("Pause");				
 					}
 					else // If unpaused
 					{
 						System.out.println("\nSimulation paused.\n");
 						Clubgoer.pauseAllThreads();
+						Andre.pauseAllThreads();
 						pauseB.setText("Unpause");	
 					}
 				}
@@ -141,18 +146,22 @@ public class ClubSimulation {
 	    tallys = new PeopleCounter(max); //counters for people inside and outside club
 		clubGrid = new ClubGrid(gridX, gridY, exit,tallys); //setup club with size and exitsand maximum limit for people    
 		Clubgoer.club = clubGrid; //grid shared with class
+		Andre.club = clubGrid;
 	   
 	    peopleLocations = new PeopleLocation[noClubgoers];
 		patrons = new Clubgoer[noClubgoers];
 		
 		Random rand = new Random();
 
-        for (int i=0;i<noClubgoers;i++) {
-        		peopleLocations[i]=new PeopleLocation(i);
+        for (int i=0;i<noClubgoers;i++) { // 0 allocated for Andre
+        		peopleLocations[i]=new PeopleLocation(i+1);
         		int movingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait); //range of speeds for customers
     			patrons[i] = new Clubgoer(i,peopleLocations[i],movingSpeed);
     		}
 		           
+		andreLocation = new PeopleLocation(0); //Setup Andre
+		andre = new Andre(andreLocation);
+
 		setupGUI(frameX, frameY,exit);  //Start Panel thread - for drawing animation
         //start all the threads
 		Thread t = new Thread(clubView); 
@@ -160,6 +169,9 @@ public class ClubSimulation {
       	//Start counter thread - for updating counters
       	Thread s = new Thread(counterDisplay);  
       	s.start();
+		//Start Andre
+		Thread a = new Thread(andre);
+		a.start();
       	
       	for (int i=0;i<noClubgoers;i++) {
 			patrons[i].start();
