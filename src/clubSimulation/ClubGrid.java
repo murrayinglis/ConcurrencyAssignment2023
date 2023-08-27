@@ -129,7 +129,7 @@ public class ClubGrid {
 	} 
 
 	// Wait for Andre to serve customer a drink
-	public boolean waitForDrink(Clubgoer cus, GridBlock currentBlock) throws InterruptedException
+	public boolean waitForDrink(GridBlock currentBlock) throws InterruptedException
 	{
 		int c_x = currentBlock.getX();
 		boolean thirsty = true;
@@ -151,7 +151,7 @@ public class ClubGrid {
 	}
 
 	// Move Andre up and down the bar
-	public GridBlock moveAndre(Andre andre, GridBlock currentBlock, PeopleLocation myLocation) throws InterruptedException
+	public GridBlock moveAndre(Thread t, GridBlock currentBlock, PeopleLocation myLocation) throws InterruptedException
 	{
 		int c_x= currentBlock.getX();
 		boolean served = false;
@@ -173,7 +173,7 @@ public class ClubGrid {
 			}
 		}
 
-		if(served) andre.sleep(1000); // Check if Andre served a drink, make him wait a bit
+		if(served) t.sleep(1000); // Check if Andre served a drink, make him wait a bit
 
 		if (andreRight) // Moving right
 		{

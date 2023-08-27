@@ -95,7 +95,7 @@ public class Clubgoer extends Thread {
 	
 	//get drink at bar
 		private void getDrink() throws InterruptedException {
-			thirsty=club.waitForDrink(this, currentBlock);
+			thirsty=club.waitForDrink(currentBlock);
 			System.out.println("Thread "+this.ID + " got drink at bar position: " + currentBlock.getX()  + " " +currentBlock.getY() );
 			sleep(movingSpeed*5);  //wait a bit
 		}
