@@ -156,7 +156,7 @@ public class ClubSimulation {
         for (int i=0;i<noClubgoers;i++) { // 0 allocated for Andre
         		peopleLocations[i]=new PeopleLocation(i+1);
         		int movingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait); //range of speeds for customers
-    			patrons[i] = new Clubgoer(i,peopleLocations[i],movingSpeed);
+    			patrons[i] = new Clubgoer(i+1,peopleLocations[i],movingSpeed);
     		}
 		           
 		andreLocation = new PeopleLocation(0); //Setup Andre

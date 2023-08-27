@@ -1,0 +1,62 @@
+commit a2ba897cf25e7f785c361a4868e291652eb7e65e
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Sun Aug 27 10:59:18 2023 +0200
+
+    Final comments and fix on entrance
+
+commit 9b5ddb712ce78cf9a36826356bf2b930ef2c6a02
+Merge: 48e5d18 58eff18
+Author: murrayinglis <126230466+murrayinglis@users.noreply.github.com>
+Date:   Fri Aug 25 12:00:21 2023 +0200
+
+    Merge pull request #1 from murrayinglis/andre
+    
+    Andre
+
+commit 58eff18fdf22b76e4c3e2576c15c6f0c268b2c89
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Fri Aug 25 09:00:01 2023 +0200
+
+    Andre working
+
+commit 31d6d0a9d64115358b1841201f039404bc902aa6
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Thu Aug 24 21:39:04 2023 +0200
+
+    Andre moving up and down
+
+commit 48e5d1815c49730631975ad643b140444634f3ff
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Thu Aug 24 15:06:40 2023 +0200
+
+    Finalizing
+
+commit 6ddb652a6871680f49038b1a42528ee773771f54
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Tue Aug 22 18:05:11 2023 +0200
+
+    Getting entrance working
+
+commit f043ce44b2cba04883acab84df188e6165b10c56
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Tue Aug 22 12:48:05 2023 +0200
+
+    Getting wait queue to work
+
+commit 1ef42cd172a0312c2c4c6f56f906597f1c6d0ccd
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Tue Aug 22 12:15:13 2023 +0200
+
+    Fixing start/pause
+
+commit 88f53b181614bb79737ba3ef770ebef305d8825a
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Tue Aug 22 11:56:54 2023 +0200
+
+    Getting buttons to work
+
+commit b0f7b0e8248324ef7343eb5461d4507121ebd509
+Author: murrayinglis <murrayinglis101@gmail.com>
+Date:   Mon Aug 21 08:48:36 2023 +0200
+
+    Added synchronisation

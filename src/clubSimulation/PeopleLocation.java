@@ -38,7 +38,7 @@ public class PeopleLocation  { // this is a separate class so don't have to acce
 		this.arrived.set(true);;
 	}
 
-//getter and setter
+	//getter and setter
 	public GridBlock getLocation() {
 		return location;
 	}
