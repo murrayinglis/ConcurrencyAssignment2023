@@ -65,10 +65,12 @@ public class Clubgoer extends Thread {
         }
     }
 
+	// Helper method for pause to simplify logic
 	public static void pauseAllThreads() {
         paused.set(true);
     }
 
+	// Helper method for resuming to simplify logic
     public static void resumeAllThreads() {
         synchronized (paused) {
             paused.set(false);
@@ -76,6 +78,7 @@ public class Clubgoer extends Thread {
         }
     }
 
+	// Check to see when user starts sim
 	private void startSim() {
 		synchronized (paused) {
 			while(paused.get()) {

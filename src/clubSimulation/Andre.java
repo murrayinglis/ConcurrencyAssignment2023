@@ -66,22 +66,19 @@ public class Andre extends Thread{
 		}
     }
 	
-	//wandering about  in the club
+	//wandering about  in the club (restricted to up and down bar)
 		private void wander() throws InterruptedException {		
             currentBlock = club.moveAndre(this,currentBlock,myLocation);
             myLocation.setLocation(currentBlock);
             sleep(1000);
 		}
 	
+	//set Andre's location in the club
         public void enterClub() throws InterruptedException {
             currentBlock = club.enterBar(myLocation);
             myLocation.setLocation(currentBlock);
             inRoom=true;
             System.out.println("Andre entered club at position: " + currentBlock.getX()  + " " +currentBlock.getY() );
-        }
-
-        private void checkDrink() throws InterruptedException {
-
         }
 
 	public void run() {
@@ -94,7 +91,6 @@ public class Andre extends Thread{
 
 		
 			while (inRoom) {	
-                checkDrink();
 				checkPause(); //check every step
 				wander();
 				//System.out.println("Andre wandering about " );

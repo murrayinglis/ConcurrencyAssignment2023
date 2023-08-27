@@ -76,11 +76,10 @@ public class ClubGrid {
 		counter.personArrived(); //add to counter of people waiting 
 		synchronized(entrance)
 		{
-			while ((counter.overCapacity()) || entrance.occupied())
+			while ((counter.overCapacity()) || entrance.occupied()) // Wait if club is full or entrane is occupied
 			{
 				entrance.wait();
 			}
-			entrance.notifyAll();
 		}
 		entrance.get(myLocation.getID());
 		counter.personEntered(); //add to counter
@@ -89,9 +88,9 @@ public class ClubGrid {
 		return entrance;
 	}
 	
+	// Set Andre's location in the bar
 	public GridBlock enterBar(PeopleLocation myLocation) throws InterruptedException {
 		GridBlock andreStart = Blocks[0][bar_y+1];
-		//GridBlock andreStart = Blocks[5][5];
 		andreStart.get(myLocation.getID());
 		myLocation.setLocation(andreStart);
 		myLocation.setInRoom(true);
@@ -99,9 +98,12 @@ public class ClubGrid {
 	}
 
 
-
 	public GridBlock move(GridBlock currentBlock,int step_x, int step_y,PeopleLocation myLocation) throws InterruptedException {  //try to move in 
-		
+
+		synchronized(entrance) { // Let someone in when they move off the entrance block
+			if (!entrance.occupied()) entrance.notifyAll();
+		}
+
 		int c_x= currentBlock.getX();
 		int c_y= currentBlock.getY();
 		
@@ -126,33 +128,33 @@ public class ClubGrid {
 		return newBlock;
 	} 
 
+	// Wait for Andre to serve customer a drink
 	public boolean waitForDrink(Clubgoer cus, GridBlock currentBlock) throws InterruptedException
 	{
 		int c_x = currentBlock.getX();
 		boolean thirsty = true;
 
-		synchronized(currentBlock)
+		synchronized(currentBlock)	// Wait for Andre to notify the block
 		{
 			while(thirsty)
 			{	
-				//System.out.println("waiting.");
 				try{
 					currentBlock.wait();
 				}
 				catch(InterruptedException e) {
 					e.printStackTrace();
 				}
-				//System.out.println("Drinked.");
 				thirsty = false;
 			}
 		}
 		return false;	
 	}
 
-
+	// Move Andre up and down the bar
 	public GridBlock moveAndre(Andre andre, GridBlock currentBlock, PeopleLocation myLocation) throws InterruptedException
 	{
 		int c_x= currentBlock.getX();
+		boolean served = false;
 
 		synchronized(Blocks[c_x][bar_y])
 		{
@@ -160,19 +162,22 @@ public class ClubGrid {
 				System.out.println("Drink.");
 				try{
 					Blocks[c_x][bar_y].notifyAll();
-					andre.sleep(1000);
+					served=true;
+					
 				}
 				catch(Exception e)
 				{
 					e.printStackTrace();
 				}
+				
 			}
 		}
 
+		if(served) andre.sleep(1000); // Check if Andre served a drink, make him wait a bit
 
-		if (andreRight)
+		if (andreRight) // Moving right
 		{
-			if (c_x+1 == this.getMaxX())
+			if (c_x+1 == this.getMaxX()) // Change direction at end
 			{
 				andreRight = false;
 				return currentBlock;
@@ -185,9 +190,9 @@ public class ClubGrid {
 	
 			return newBlock;
 		}
-		else
+		else // Move left
 		{
-			if (c_x-1 < 0)
+			if (c_x-1 < 0) // Change directino at end
 			{
 				andreRight = true;
 				return currentBlock;
